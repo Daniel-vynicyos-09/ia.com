@@ -136,6 +136,20 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
 @keyframes flowy{to{transform:translateY(60px)}}
 .future div{grid-template-columns:1fr;gap:6px}}
 @media(max-width:560px){nav ul{display:none}.grid{grid-template-columns:1fr}.item.wide{grid-column:auto}.legend em{margin-left:0}}
+.dotc{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);margin-right:10px}
+.nh{font:500 clamp(1.05rem,2vw,1.3rem)/1.3 var(--disp);margin-top:64px}
+.netblock .sub{margin-top:10px}
+.netfig{margin-top:28px;border:1px solid var(--line);border-radius:16px;background:#0a1020;overflow:hidden;box-shadow:0 0 40px rgba(34,225,255,.08)}
+.gs{display:block;position:relative;aspect-ratio:1000/454}
+.gs picture{display:contents}
+.gs img{display:none;width:100%;height:100%;object-fit:contain}
+.gs.ok img{display:block}
+.gs .ph{position:absolute;inset:14px;display:grid;place-items:center;text-align:center;border:1px dashed rgba(34,225,255,.55);border-radius:10px;background:rgba(34,225,255,.06);color:var(--cy);font:600 clamp(10px,1.5vw,14px)/1.5 var(--body);padding:0 12px}
+.gs.ok .ph{display:none}
+.netfig figcaption{padding:14px 18px;border-top:1px solid var(--line);color:var(--mut);font-size:13.5px;background:rgba(4,6,11,.6)}
+.netblock .grid{margin-top:20px}
+.netfoot{margin-top:18px;color:var(--mut);font-size:14px;max-width:70ch}
+.honest{margin-top:16px;border-color:rgba(255,176,32,.35);background:linear-gradient(135deg,rgba(255,176,32,.08),rgba(255,176,32,.02))}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -143,7 +157,7 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
 <div id="pg"></div>
 <nav><div class="wrap">
   <a class="brand" href="#topo" aria-label="Quettawatt.ia"><span class="slot" role="img" aria-label="Quettawatt.ia"><img class="logo" src="logo.png" width="866" height="288" alt="" onload="this.parentNode.classList.add('ok')"><span class="ph">logo.png · 866 × 288</span></span></a>
-  <ul><li><a href="#projeto">O projeto</a></li><li><a href="#bilstm">Bi-LSTM</a></li><li><a href="#ia">A IA</a></li><li><a href="#futuro">Futuro</a></li></ul>
+  <ul><li><a href="#projeto">O projeto</a></li><li><a href="#bilstm">Bi-LSTM</a></li><li><a href="#ia">A IA</a></li><li><a href="#resultados">Resultados</a></li><li><a href="#futuro">Futuro</a></li></ul>
 </div></nav>
 
 <header class="hero" id="topo"><div class="wrap">
@@ -178,7 +192,7 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
 
 <section id="bilstm"><div class="wrap">
   <h2>Como a Bi-LSTM aprende o consumo</h2>
-  <p class="sub">Bi-LSTM é um tipo de rede neural feita para dados que acontecem em sequência, como o consumo de energia ao longo das horas. Ela olha uma janela de leituras recentes, aprende o ritmo do consumo e estima a próxima leitura.</p>
+  <p class="sub">Bi-LSTM é um tipo de rede neural feita para dados que acontecem em sequência, como o consumo de energia ao longo das horas. Ela olha uma janela das últimas 24 horas, aprende o ritmo do consumo e estima o consumo da próxima hora.</p>
   <div class="holo">
     <div class="hf"><svg viewBox="0 0 320 400" role="img" aria-label="Rosto holográfico da inteligência artificial">
       <defs>
@@ -210,12 +224,35 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
       <h3>Como a IA trabalha, passo a passo</h3>
       <ol class="st">
         <li>Os sensores enviam as leituras e o servidor guarda o histórico.</li>
-        <li>A IA monta uma janela com as leituras recentes e 13 sinais de cada uma.</li>
+        <li>A IA monta uma janela com as últimas 24 horas e 15 sinais de cada uma.</li>
         <li>A Bi-LSTM lê a janela nos dois sentidos e a atenção escolhe o que mais pesa.</li>
         <li>Sai a previsão com a faixa de incerteza, e o que foge do padrão vira aviso no painel.</li>
       </ol>
       <div class="term"><small>Exemplo ilustrativo do que a IA comunica</small><span id="ty"></span><i class="cur"></i></div>
     </div>
+  </div>
+  <div class="netblock">
+    <h3 class="nh">A rede por dentro, camada por camada</h3>
+    <p class="sub">Cada esfera da animação representa um grupo de neurônios, e o pulso de luz mostra o caminho da informação: entra a janela de 24 horas, passa pelas camadas e sai um único número, o consumo previsto da próxima hora.</p>
+    <figure class="netfig">
+      <span class="gs" role="img" aria-label="Animação da rede Bi-LSTM com atenção: um pulso de luz percorre as camadas, da entrada de 24 horas até o consumo previsto da próxima hora.">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="rede-neural.png">
+          <img src="rede_neural_gif.gif" width="1000" height="454" alt="" onload="this.closest('.gs').classList.add('ok')">
+        </picture>
+        <span class="ph">rede-neural.gif · 1000 × 454<br>coloque o arquivo na mesma pasta desta página</span>
+      </span>
+      <figcaption>Ilustração esquemática: cada esfera representa vários neurônios (por exemplo, 8 esferas por direção equivalem a 128 unidades). A animação mostra o fluxo da informação, não valores reais de ativação.</figcaption>
+    </figure>
+    <div class="grid">
+      <div class="item"><h3><i class="dotc" style="--c:#9ec5ff"></i>Entrada</h3><p>A janela das últimas 24 horas, com 15 sinais em cada hora. É o que a rede enxerga de cada vez.</p></div>
+      <div class="item"><h3><i class="dotc" style="--c:#3b82f6"></i><i class="dotc" style="--c:#a78bfa"></i>Duas camadas Bi-LSTM</h3><p>Com 128 e 64 unidades por direção. A azul lê do passado para o presente e a violeta do presente para o passado. A primeira camada capta padrões curtos, e a segunda combina esses padrões em ritmos maiores, como o do dia.</p></div>
+      <div class="item"><h3><i class="dotc" style="--c:#8aa0bd"></i>Normalização e Dropout</h3><p>A normalização mantém os números em uma escala estável. O Dropout desliga 25% dos neurônios ao acaso durante o treino, para a rede aprender o padrão em vez de decorar os exemplos.</p></div>
+      <div class="item"><h3><i class="dotc" style="--c:#14b8a6"></i>Atenção de 4 cabeças</h3><p>Quatro cabeças olham a janela de quatro jeitos e aprendem quais horas pesam mais. Uma conexão residual soma o que entrou com o que saiu, para não perder informação no caminho.</p></div>
+      <div class="item"><h3><i class="dotc" style="--c:#94a3b8"></i>Resumo no tempo</h3><p>Uma média ao longo das 24 horas condensa a janela inteira em um único conjunto de 128 números.</p></div>
+      <div class="item"><h3><i class="dotc" style="--c:#f59e0b"></i>Camadas densas</h3><p>Três camadas densas, de 64, 32 e 1 neurônio, transformam esse resumo em um número só: o consumo previsto da próxima hora.</p></div>
+    </div>
+    <p class="netfoot">No total são cerca de 356 mil parâmetros, os valores que a rede ajusta sozinha durante o treino.</p>
   </div>
   <div class="bi" role="img" aria-label="Esquema animado: uma janela de leituras é lida do passado para o presente e do presente para o passado; a atenção destaca os momentos mais importantes.">
     <p class="rl">Lê a janela do passado para o presente</p><div class="rail"></div>
@@ -227,19 +264,19 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
   <div class="grid">
     <div class="item"><h3>Por que bidirecional?</h3><p>O mesmo valor pode significar coisas diferentes conforme o que vem antes e depois dele na janela. Ler nos dois sentidos ajuda a separar o começo de um pico de uma simples oscilação da rotina.</p></div>
     <div class="item"><h3>Para que serve a atenção?</h3><p>Essa camada aprende a dar mais peso aos momentos da janela que mais ajudam na previsão, como uma subida brusca ou uma mudança de ritmo.</p></div>
-    <div class="item"><h3>Como mede a incerteza?</h3><p>O Monte Carlo Dropout repete a previsão várias vezes com pequenas variações na rede. Se os resultados se parecem, a confiança é alta. Se se espalham, o intervalo se abre.</p></div>
-    <div class="item full"><h3>O que entra no modelo</h3><p>Treze sinais por leitura: consumo, temperatura, umidade, hora, dia da semana e mês, estes três representados de forma cíclica para que 23h fique perto de 0h, a variação desde a leitura anterior, a média móvel recente e se o dia é fim de semana. A qualidade da previsão cresce com o histórico acumulado, e o projeto ainda está em fase de testes.</p></div>
+    <div class="item"><h3>Como mede a incerteza?</h3><p>O Monte Carlo Dropout repete a previsão 50 vezes com pequenas variações na rede. Se os resultados se parecem, a confiança é alta. Se se espalham, o intervalo se abre. Depois, a faixa é ajustada pelos erros reais medidos no teste.</p></div>
+    <div class="item full"><h3>O que entra no modelo</h3><p>Quinze sinais por hora: consumo, temperatura, umidade, hora, dia da semana e mês (estes três representados de forma cíclica, para que 23h fique perto de 0h), a variação desde a leitura anterior em kWh e em %, a média móvel de 6 horas e se o dia é fim de semana. Dois sinais trazem a rotina semanal: o consumo da mesma hora uma semana antes e a média dessa hora nas 4 semanas anteriores. A qualidade da previsão cresce com o histórico acumulado, e o projeto ainda está em fase de testes.</p></div>
   </div>
 </div></section>
 
 <section id="ia"><div class="wrap">
   <h2>O que a inteligência artificial faz</h2>
   <div class="grid">
-    <div class="item wide"><h3>Prevê as próximas horas e diz o quanto confia</h3><p>Uma rede Bi-LSTM estima o consumo futuro. Com Monte Carlo Dropout, ela também desenha o intervalo de incerteza: quanto mais longe a previsão, mais aberta a faixa, como no gráfico do topo.</p></div>
-    <div class="item"><h3>Detecta anomalias</h3><p>Compara cada leitura com as últimas 48 e classifica o aviso em cinco níveis, do informativo à emergência.</p></div>
-    <div class="item"><h3>Percebe quando o padrão muda</h3><p>O drift conceitual, medido pela divergência KL, mostra quando o consumo recente deixou de se parecer com o histórico.</p></div>
+    <div class="item wide"><h3>Prevê a próxima hora e diz o quanto confia</h3><p>Uma rede Bi-LSTM estima o consumo da próxima hora. Com Monte Carlo Dropout, ela também mostra o intervalo de incerteza, calibrado com erros reais de um período que a IA nunca viu no treino. O gráfico do topo é uma simulação para mostrar a ideia.</p></div>
+    <div class="item"><h3>Detecta anomalias</h3><p>Compara cada leitura com as últimas 48 e com o padrão da mesma hora nos dias anteriores, e classifica o aviso em cinco níveis, do informativo à emergência. Um modelo Isolation Forest dá uma segunda opinião sobre o que foge do normal.</p></div>
+    <div class="item"><h3>Percebe quando o padrão muda</h3><p>O drift conceitual, medido pelo PSI (índice de estabilidade da população), compara a última semana com a anterior e mostra quando o consumo deixou de se parecer com o histórico. Se a mudança se sustenta, a IA se retreina.</p></div>
     <div class="item"><h3>Dá uma nota ao consumo</h3><p>Score de A a F, calculado a partir de eficiência, regularidade, consumo noturno, picos e tendência.</p></div>
-    <div class="item"><h3>Explica a previsão</h3><p>Mostra quais variáveis mais pesaram em cada previsão, para o resultado não ser uma caixa-preta.</p></div>
+    <div class="item"><h3>Explica a previsão</h3><p>Zera cada sinal, um de cada vez, e vê quanto a previsão muda. Assim mostra quais variáveis mais pesaram, para o resultado não ser uma caixa-preta.</p></div>
     <div class="item wide"><h3>Responde no próprio painel</h3><p>O chat do painel consulta os dados reais e responde sobre consumo atual, previsão, alertas, score e dicas de economia.</p></div>
   </div>
   <div class="nums">
@@ -248,6 +285,27 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
     <div class="num"><b data-to="5">0</b><span>níveis de alerta</span></div>
     <div class="num"><b data-to="6">0</b><span>notas de consumo, de A a F</span></div>
   </div>
+</div></section>
+
+<section id="resultados"><div class="wrap">
+  <h2>Como ela é treinada e quão bem acerta</h2>
+  <p class="sub">Uma previsão só serve se for testada de forma honesta. Por isso o projeto separa os dados por ordem de tempo e mede o erro em um período que a IA nunca viu.</p>
+  <div class="grid">
+    <div class="item"><h3>Treino em ordem de tempo</h3><p>Os últimos 12 meses de leituras são divididos em três blocos seguidos: treino, validação e teste. O teste vem depois no tempo e nunca ensina a IA, como numa previsão de verdade.</p></div>
+    <div class="item"><h3>Sabe a hora de parar</h3><p>A validação acompanha o aprendizado. Quando ela deixa de melhorar por 15 épocas seguidas, o treino termina e a IA volta para a melhor versão. Se o aprendizado trava, a velocidade dele é reduzida.</p></div>
+    <div class="item"><h3>Aprende com os próprios erros</h3><p>A cada hora, a previsão é comparada com a leitura real. A IA guarda esses erros e corrige parte de um desvio que se repete na mesma hora do dia, com limite de 25% para não exagerar.</p></div>
+    <div class="item"><h3>Sabe quando não confiar</h3><p>Se a entrada for muito diferente de tudo que ela viu no treino, a previsão é marcada como pouco confiável e a confiança é limitada.</p></div>
+    <div class="item"><h3>Retreina sozinha</h3><p>Toda semana, ou quando o padrão de consumo muda de verdade, a IA treina de novo em segundo plano, sem parar a leitura dos sensores. O modelo novo só entra no lugar do antigo quando termina.</p></div>
+    <div class="item"><h3>Falha com segurança</h3><p>Se não houver um modelo válido, a previsão fica indisponível em vez de chutar um número com uma rede sem treino.</p></div>
+  </div>
+  <div class="nums">
+    <div class="num"><b data-to="0.176" data-dec="3">0</b><span>kWh de erro médio por hora</span></div>
+    <div class="num"><b data-to="11.3" data-dec="1">0</b><span>% de erro sobre o consumo total</span></div>
+    <div class="num"><b data-to="97">0</b><span>% das horas com erro de até 0,5 kWh</span></div>
+    <div class="num"><b data-to="19">0</b><span>% menos erro que repetir a mesma hora da semana passada</span></div>
+  </div>
+  <p class="sub">Teste com 1.748 horas seguidas, de 02/08 a 14/10/2026 (cerca de 73 dias), em dados que a IA nunca viu no treino. Ela explica 96,5% da variação do consumo. O projeto está em fase de testes, e esses números vão mudar conforme o histórico cresce.</p>
+  <div class="item full honest"><h3>O que ainda falta</h3><p>Hoje a IA empata com uma média simples das 4 últimas semanas na mesma hora. Isso mostra que boa parte do consumo é rotina que se repete, e que o próximo ganho deve vir de informação nova, como feriados, eventos e previsão do tempo. O maior erro está entre 18h e 22h, os horários de pico, com cerca de 0,27 kWh.</p></div>
 </div></section>
 
 <section id="futuro"><div class="wrap">
@@ -260,7 +318,7 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:16px;backgro
     <div><h3>Vários locais em um painel</h3><p>A estrutura de locais e dispositivos já permite acompanhar várias unidades juntas.</p></div>
     <div><h3>Alertas onde você está</h3><p>Avisos por e-mail ou mensagem, e não só dentro do painel.</p></div>
   </div>
-  <div class="chips"><span>ESP32</span><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Bi-LSTM</span><span>Chart.js</span><span>JWT</span></div>
+  <div class="chips"><span>ESP32</span><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Bi-LSTM</span><span>TensorFlow</span><span>scikit-learn</span><span>Chart.js</span><span>JWT</span></div>
 </div></section>
 
 <footer><div class="wrap">
@@ -325,9 +383,9 @@ else{
 // contadores: contam uma vez, quando aparecem
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)return;io.unobserve(e.target);
-  const el=e.target,to=+el.dataset.to;
-  if(RM){el.textContent=to;return}
-  const s=performance.now(),f=n=>{const p=Math.min(1,(n-s)/1200);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f);
+  const el=e.target,to=+el.dataset.to,dec=+el.dataset.dec||0,fm=v=>dec?v.toFixed(dec).replace('.',','):Math.round(v);
+  if(RM){el.textContent=fm(to);return}
+  const s=performance.now(),f=n=>{const p=Math.min(1,(n-s)/1200);el.textContent=fm(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f);
 }),{threshold:.6});
 document.querySelectorAll('[data-to]').forEach(n=>io.observe(n));
 const pg=document.getElementById('pg');
